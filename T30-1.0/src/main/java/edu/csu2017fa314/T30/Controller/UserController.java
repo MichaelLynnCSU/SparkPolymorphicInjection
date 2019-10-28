@@ -21,8 +21,10 @@ public class UserController {
     Properties props;
     Gson gson;
     int test = 0;
-    BaseService myService;
 
+    // beans that decouples endpoints
+    BaseService myUserService = new UserService();
+    BaseService myGuestService = new GuestService();
 
 
     public UserController() {
@@ -36,20 +38,18 @@ public class UserController {
 
         post("/usersearch", (request, response) ->{
             // user bean equivalent
-            myService = new UserService();
 
             response.status(200);
             response.type("application/json");
             User user = new Gson().fromJson(request.body(), User.class);
-            String json = myService.search("email1");
+            String json = myUserService.search("email1");
             System.out.println(json);
             return json;
         });
 
         post("/addUsers", (request, response) ->{
             response.status(200);
-            // user bean equivalent
-            myService = new UserService();
+
             User user = new Gson().fromJson(request.body(), User.class);
 
             User u1  = new User("1","Mike", "Lynn", "email1");
@@ -57,9 +57,9 @@ public class UserController {
             User u3  = new User("3","Mike", "Lynn", "email3");
 
 
-            myService.addUser(u1);
-            myService.addUser(u2);
-            myService.addUser(u3);
+            myUserService.addUser(u1);
+            myUserService.addUser(u2);
+            myUserService.addUser(u3);
 
             // fiddler
             //    {
@@ -69,22 +69,21 @@ public class UserController {
             //      "email": "test"
             //    }
 
-            String json = myService.getAllData();
+            String json = myUserService.getAllData();
             return json;
         });
 
         post("/addGuests", (request, response) ->{
             response.status(200);
             User user = new Gson().fromJson(request.body(), User.class);
-            // guest bean equivalent
-            myService = new GuestService();
+
             Guest g1  = new Guest("1","Mike", "Lynn", "email1");
             Guest g2  = new Guest("2","Mike", "Lynn", "email2");
             Guest g3  = new Guest("3","Mike", "Lynn", "email3");
 
-            myService.addUser(g1);
-            myService.addUser(g2);
-            myService.addUser(g3);
+            myGuestService.addUser(g1);
+            myGuestService.addUser(g2);
+            myGuestService.addUser(g3);
 
             // fiddler
             //    {
@@ -93,7 +92,7 @@ public class UserController {
             //      "lastName": "India",
             //      "email": "test"
             //    }
-            String json = myService.getAllData();
+            String json = myGuestService.getAllData();
             return json;
         });
 
