@@ -24,7 +24,7 @@ public class DataController {
 
         ve = new VelocityEngine();
         props = new Properties();
-        props.put("file.resource.loader.path", "C:/Users/aplus/Documents/GitHub/JavaRestSP1/T30-1.0/src/main/java/edu/csu2017fa314/T30/View/");
+        props.put("file.resource.loader.path", "src/main/resources/");
         ve.init(props);
         gson = new Gson();
        // myModel = new DataService();
@@ -37,7 +37,7 @@ public class DataController {
             Map<String, String> view = new HashMap<String, String>();
              view.put("message", "Problem with data");
             return new VelocityTemplateEngine(ve).render(
-                    new ModelAndView(view, "getdata.vm"));
+                    new ModelAndView(view, "templates/getdata.vm"));
         });
 
 
@@ -48,7 +48,7 @@ public class DataController {
             Map<String, String> view = new HashMap<String, String>();
             view.put("message", "Problem with data");
             return new VelocityTemplateEngine(ve).render(
-                    new ModelAndView(view, "data.vm"));
+                    new ModelAndView(view, "templates/data.vm"));
         });
 
         post("/search", (request, response) -> {
@@ -58,7 +58,7 @@ public class DataController {
             Map<String, String> view = new HashMap<String, String>();
             view.put("message", "Problem with data");
             return new VelocityTemplateEngine(ve).render(
-                    new ModelAndView(view, "search.vm"));
+                    new ModelAndView(view, "templates/search.vm"));
         });
 
     }
